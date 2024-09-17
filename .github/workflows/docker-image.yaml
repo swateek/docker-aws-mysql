@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "*"
+    # tags:
+    #   - "v[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  DOCKER_HUB_REPO_NAME: docker-aws
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.SWATEEKJ_DOCKER_HUB_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        # if: ${{ github.ref_type == 'tag' }}
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}, ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
