@@ -2,10 +2,10 @@ name: ci
 
 on:
   push:
-    branches:
-      - "*"
-    # tags:
-    #   - "v[0-9]+.[0-9]+.[0-9]+"
+    # branches:
+    #   - "*"
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 env:
   DOCKER_HUB_REPO_NAME: docker-aws-mysql
@@ -32,7 +32,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
-        # if: ${{ github.ref_type == 'tag' }}
+        if: ${{ github.ref_type == 'tag' }}
         with:
           context: .
           file: ./Dockerfile
