@@ -10,7 +10,7 @@ ARG AWS_CLI_VERSION
 ARG MYSQL_VERSION
 
 RUN apt-get -qq update
-RUN apt install -qq -y curl unzip jq openssh-client mysql-server=${MYSQL_VERSION}
+RUN apt install -qq -y curl unzip jq openssh-client mysql-client=${MYSQL_VERSION}
 RUN curl -sS -O 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64-'${AWS_CLI_VERSION}'.zip'
 RUN unzip -qq awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
 RUN ./aws/install

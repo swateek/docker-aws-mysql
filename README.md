@@ -40,3 +40,11 @@ job-build:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 ```
+
+2. Testing Image
+
+```bash
+echo "USE db; SELECT * FROM users_tbl;" > tmp.sql
+export MYSQL_PWD=tmp123
+mysql -h "host" -u "user" -D "db" < tmp.sql
+```
