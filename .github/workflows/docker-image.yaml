@@ -8,7 +8,7 @@ on:
     #   - "v[0-9]+.[0-9]+.[0-9]+"
 
 env:
-  DOCKER_HUB_REPO_NAME: docker-aws
+  DOCKER_HUB_REPO_NAME: docker-aws-mysql
 
 jobs:
   push_to_registry:
