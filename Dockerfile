@@ -9,8 +9,6 @@ ARG MAJOR_UBUNTU_VERSION
 ARG AWS_CLI_VERSION
 ARG MYSQL_VERSION
 
-RUN add-apt-repository ppa:deadsnakes/ppa -y
-
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         curl \
