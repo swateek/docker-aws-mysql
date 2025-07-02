@@ -9,6 +9,8 @@ ARG MAJOR_UBUNTU_VERSION
 ARG AWS_CLI_VERSION
 ARG MYSQL_VERSION
 
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         curl \
@@ -22,8 +24,6 @@ RUN apt-get update -qq && \
         python3.12-venv \
         python3-pip && \
     rm -rf /var/lib/apt/lists/*
-
-RUN add-apt-repository ppa:deadsnakes/ppa -y
 
 RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" && \
     unzip -qq awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip && \
