@@ -4,6 +4,12 @@ An ubuntu docker with all necessary installables that are required to run mysql 
 
 This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 
+| Package                | Version                   |
+| ---------------------- | ------------------------- |
+| `MAJOR_UBUNTU_VERSION` | `24.04`                   |
+| `AWS_CLI_VERSION`      | `2.27.47`                 |
+| `MYSQL_VERSION`        | `8.0.42-0ubuntu0.24.04.1` |
+
 ## Getting Started
 
 1. Setting up development environment
@@ -48,3 +54,9 @@ echo "USE db; SELECT * FROM users_tbl;" > tmp.sql
 export MYSQL_PWD=tmp123
 mysql -h "host" -u "user" -D "db" < tmp.sql
 ```
+
+## Notes
+
+1. Latest `aws-cli` can be looked up from [this link](https://raw.githubusercontent.com/aws/aws-cli/v2/CHANGELOG.rst).
+
+2. Latest `mysql` version needs to be googled to get the exact filename

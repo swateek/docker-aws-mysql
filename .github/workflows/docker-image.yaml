@@ -30,6 +30,16 @@ jobs:
         with:
           images: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}
 
+      # - name: Build and push Docker image (Debug)
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.SWATEEKJ_DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPO_NAME }}:test
+      #     labels: ${{ steps.meta.outputs.labels }}
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         if: ${{ github.ref_type == 'tag' }}
