@@ -8,7 +8,7 @@ This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 | ---------------------- | ------------------------- |
 | `MAJOR_UBUNTU_VERSION` | `24.04`                   |
 | `AWS_CLI_VERSION`      | `2.27.47`                 |
-| `MYSQL_VERSION`        | `8.0.42-0ubuntu0.24.04.1` |
+| `MYSQL_VERSION`        | `8.0.46-0ubuntu0.24.04.3` |
 | `UV_VERSION`           | `0.11.28`                 |
 
 ## Getting Started

@@ -1,7 +1,7 @@
 ARG BUILD_VERSION
 ARG MAJOR_UBUNTU_VERSION="24.04"
 ARG AWS_CLI_VERSION="2.27.47"
-ARG MYSQL_VERSION="8.0.42-0ubuntu0.24.04.1"
+ARG MYSQL_VERSION="8.0.46-0ubuntu0.24.04.3"
 ARG UV_VERSION="0.11.28"
 
 # ARG expansion works in FROM; COPY --from does not accept ${UV_VERSION} in the image ref
