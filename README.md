@@ -40,14 +40,13 @@ docker run --name docker-aws-mysql --rm -ti docker-aws-mysql bash
 
 ```yaml
 job-build:
-  image: swateekj/docker-aws:latest
+  image: swateekj/docker-aws-mysql:latest
   stage: build
   script: |
     echo "Your commands go here"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 ```
-
 2. Testing Image
 
 ```bash

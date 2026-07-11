@@ -4,19 +4,18 @@ ARG AWS_CLI_VERSION="2.27.47"
 ARG MYSQL_VERSION="8.0.46-0ubuntu0.24.04.3"
 ARG UV_VERSION="0.11.28"
 
-# ARG expansion works in FROM; COPY --from does not accept ${UV_VERSION} in the image ref
-FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
-
 FROM ubuntu:${MAJOR_UBUNTU_VERSION} AS build-image
 ARG BUILD_VERSION
 ARG MAJOR_UBUNTU_VERSION
 ARG AWS_CLI_VERSION
 ARG MYSQL_VERSION
+ARG UV_VERSION
 
 # RUN apt-get -qq update
 # RUN apt install -qq -y curl unzip jq openssh-client mysql-client=${MYSQL_VERSION}
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
+        ca-certificates \
         curl \
         unzip \
         jq \
@@ -34,7 +33,11 @@ RUN unzip -qq awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
 RUN ./aws/install
 RUN rm -rf aws awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
 
-# Install uv (Astral) for Python package/project management in CI
-COPY --from=uv /uv /uvx /bin/
+# Install uv into /usr/local/bin so it is always on PATH for CI jobs
+ADD https://astral.sh/uv/${UV_VERSION}/install.sh /tmp/uv-installer.sh
+RUN sh /tmp/uv-installer.sh \
+    && install -m 0755 /root/.local/bin/uv /root/.local/bin/uvx /usr/local/bin/ \
+    && rm -f /tmp/uv-installer.sh \
+    && uv --version
 
 RUN apt-get clean
