@@ -9,6 +9,7 @@ This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 | `MAJOR_UBUNTU_VERSION` | `24.04`                   |
 | `AWS_CLI_VERSION`      | `2.27.47`                 |
 | `MYSQL_VERSION`        | `8.0.42-0ubuntu0.24.04.1` |
+| `UV_VERSION`           | `0.11.28`                 |
 
 ## Getting Started
 
@@ -60,3 +61,5 @@ mysql -h "host" -u "user" -D "db" < tmp.sql
 1. Latest `aws-cli` can be looked up from [this link](https://raw.githubusercontent.com/aws/aws-cli/v2/CHANGELOG.rst).
 
 2. Latest `mysql` version needs to be googled to get the exact filename
+
+3. Latest `uv` version can be looked up from [GitHub releases](https://github.com/astral-sh/uv/releases).
