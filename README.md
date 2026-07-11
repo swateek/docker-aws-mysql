@@ -32,6 +32,10 @@ docker build --progress=plain -t docker-aws-mysql .
 # Run the docker locally, get into docker
 docker run --name docker-aws-mysql --rm -ti docker-aws-mysql bash
 
+# Verify installed tools and image size
+docker images docker-aws-mysql
+docker run --rm docker-aws-mysql bash -lc 'uv --version && aws --version && python3 --version && mysql --version'
+
 ```
 
 ## Usage
@@ -62,3 +66,5 @@ mysql -h "host" -u "user" -D "db" < tmp.sql
 2. Latest `mysql` version needs to be googled to get the exact filename
 
 3. Latest `uv` version can be looked up from [GitHub releases](https://github.com/astral-sh/uv/releases).
+
+4. Python package management uses `uv` (not apt `python3-pip` / `python3.12-venv`). Use `uv pip`, `uv venv`, or `uv run` in CI jobs.
