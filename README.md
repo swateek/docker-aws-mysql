@@ -8,7 +8,7 @@ This is intended to be used with GitLab's CI/CD pipeline as a docker image.
 | ---------------------- | ------------------------- |
 | `MAJOR_UBUNTU_VERSION` | `24.04`                   |
 | `AWS_CLI_VERSION`      | `2.27.47`                 |
-| `MYSQL_VERSION`        | `8.0.42-0ubuntu0.24.04.1` |
+| `MYSQL_VERSION`        | `8.0.46-0ubuntu0.24.04.3` |
 | `UV_VERSION`           | `0.11.28`                 |
 
 ## Getting Started
@@ -32,6 +32,10 @@ docker build --progress=plain -t docker-aws-mysql .
 # Run the docker locally, get into docker
 docker run --name docker-aws-mysql --rm -ti docker-aws-mysql bash
 
+# Verify installed tools and image size
+docker images docker-aws-mysql
+docker run --rm docker-aws-mysql bash -lc 'uv --version && aws --version && python3 --version && mysql --version'
+
 ```
 
 ## Usage
@@ -40,14 +44,13 @@ docker run --name docker-aws-mysql --rm -ti docker-aws-mysql bash
 
 ```yaml
 job-build:
-  image: swateekj/docker-aws:latest
+  image: swateekj/docker-aws-mysql:latest
   stage: build
   script: |
     echo "Your commands go here"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 ```
-
 2. Testing Image
 
 ```bash
@@ -63,3 +66,5 @@ mysql -h "host" -u "user" -D "db" < tmp.sql
 2. Latest `mysql` version needs to be googled to get the exact filename
 
 3. Latest `uv` version can be looked up from [GitHub releases](https://github.com/astral-sh/uv/releases).
+
+4. Python package management uses `uv` (not apt `python3-pip` / `python3.12-venv`). Use `uv pip`, `uv venv`, or `uv run` in CI jobs.
