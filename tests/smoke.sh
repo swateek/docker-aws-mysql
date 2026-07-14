@@ -25,7 +25,8 @@ jq --version
 echo "==> Smoke-checking help / basic invocation"
 mysql --help >/dev/null
 mysqldump --help >/dev/null
-AWS_PAGER="" aws help >/dev/null
+# aws help needs groff/mandoc (not in image); configure list exercises the CLI offline
+aws configure list >/dev/null
 
 echo "==> Validating HTTPS / CA certificates"
 curl -fsSI https://aws.amazon.com >/dev/null
