@@ -34,7 +34,7 @@ docker run --name docker-aws-mysql --rm -ti docker-aws-mysql bash
 
 # Verify installed tools and image size
 docker images docker-aws-mysql
-docker run --rm docker-aws-mysql bash -lc 'uv --version && aws --version && python3 --version && mysql --version'
+docker run --rm docker-aws-mysql bash -lc 'uv --version && aws --version && python3 --version && python3 -m venv /tmp/pyvenv && mysql --version'
 
 ```
 
@@ -79,4 +79,4 @@ mysql -h "host" -u "user" -D "db" < tmp.sql
 
 3. Latest `uv` version can be looked up from [GitHub releases](https://github.com/astral-sh/uv/releases).
 
-4. Python package management uses `uv` (not apt `python3-pip` / `python3.12-venv`). Use `uv pip`, `uv venv`, or `uv run` in CI jobs.
+4. Python package management uses `uv` (not apt `python3-pip`). Prefer `uv pip`, `uv venv`, or `uv run` in CI jobs. `python3` and `python3.12-venv` remain installed so scripts that call `python3 -m venv` (e.g. Databricks deploy) still work.

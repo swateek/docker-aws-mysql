@@ -31,6 +31,12 @@ aws configure list >/dev/null
 echo "==> Validating HTTPS / CA certificates"
 curl -fsSI https://aws.amazon.com >/dev/null
 
+echo "==> Exercising python3 -m venv (ensurepip / python3.12-venv)"
+# Databricks and other CI scripts use stdlib venv; uv venv alone is not enough.
+python3 -m venv /tmp/pyvenv
+/tmp/pyvenv/bin/python3 -c "import ensurepip; print('ensurepip ok')"
+rm -rf /tmp/pyvenv
+
 echo "==> Exercising uv venv + pip install"
 uv venv /tmp/tvenv
 uv pip install --python /tmp/tvenv/bin/python cowsay
