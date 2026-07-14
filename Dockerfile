@@ -20,6 +20,7 @@ RUN apt-get update -qq && \
         jq \
         openssh-client \
         mysql-client=${MYSQL_VERSION} \
+        python3 \
         python3.12 && \
     rm -rf /var/lib/apt/lists/*
 
