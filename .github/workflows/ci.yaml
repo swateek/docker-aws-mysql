@@ -1,0 +1,66 @@
+name: pre-merge
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_TAG: docker-aws-mysql:ci
+
+jobs:
+  smoke:
+    name: Build and smoke-test image
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -ptest"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: ${{ env.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run smoke tests
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/tests:/tests:ro" \
+            "${{ env.IMAGE_TAG }}" \
+            bash /tests/smoke.sh
+
+      - name: MySQL client SQL round-trip
+        run: |
+          docker run --rm \
+            --network host \
+            -e MYSQL_PWD=test \
+            "${{ env.IMAGE_TAG }}" \
+            mysql -h 127.0.0.1 -u root -e "
+              SELECT 1;
+              CREATE DATABASE smoke;
+              USE smoke;
+              CREATE TABLE t(id INT);
+              INSERT INTO t VALUES (1);
+              SELECT id FROM t;
+            "

@@ -38,6 +38,18 @@ docker run --rm docker-aws-mysql bash -lc 'uv --version && aws --version && pyth
 
 ```
 
+## CI / testing
+
+Pre-merge CI builds the image (no push) and runs smoke checks for installed tools, plus a MySQL client SQL round-trip against a temporary MySQL service.
+
+```bash
+# Build for local smoke tests
+docker build -t docker-aws-mysql:ci .
+
+# Run the smoke script inside the image
+docker run --rm -v "$PWD/tests:/tests:ro" docker-aws-mysql:ci bash /tests/smoke.sh
+```
+
 ## Usage
 
 1. On GitLab CI
