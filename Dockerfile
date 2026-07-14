@@ -21,7 +21,8 @@ RUN apt-get update -qq && \
         openssh-client \
         mysql-client=${MYSQL_VERSION} \
         python3 \
-        python3.12 && \
+        python3.12 \
+        python3.12-venv && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS -O "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" \
